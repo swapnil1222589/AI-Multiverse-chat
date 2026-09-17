@@ -1,16 +1,14 @@
 import streamlit as st
-import google.generativeai as genai
- 
-API_KEY = "AIzaSyDvoEdPHPrLD3NqA74M-8aJwBems4tEvpU"  
-genai.configure(api_key=API_KEY) 
-# genai.configure(api_key=API_KEY)
-  
-model = genai.GenerativeModel("gemini-2.5-flash")
+from google import genai
 
 st.set_page_config(
     page_title="AI Multiverse Chat",
     page_icon="🤖",
     layout="centered"
+)
+
+client = genai.Client(
+    api_key=st.secrets["GEMINI_API_KEY"]
 )
 
 st.title("🤖 AI Multiverse Chat")
@@ -37,44 +35,70 @@ intensity = st.sidebar.slider(
     value=5
 )
 
-if personality == "Friendly Teacher":
-    bot_avatar = "👩‍🏫"
-elif personality == "Expert Hacker":
-    bot_avatar = "💻"
-elif personality == "Stand-up Comedian":
-    bot_avatar = "😂"
-elif personality == "Panicked College Student at 3 AM":
-    bot_avatar = "😱"
-elif personality == "1920s Mafia Boss":
-    bot_avatar = "🕴️"
-elif personality == "Highly Sarcastic Fitness Coach":
-    bot_avatar = "🏋️"
-else:
-    bot_avatar = "🤖"
+avatars = {
+    "Friendly Teacher": "👩‍🏫",
+    "Expert Hacker": "💻",
+    "Stand-up Comedian": "😂",
+    "Panicked College Student at 3 AM": "😱",
+    "1920s Mafia Boss": "🕴️",
+    "Highly Sarcastic Fitness Coach": "🏋️"
+}
 
-user_input = st.text_input("Type your message...")
+bot_avatar = avatars.get(personality, "🤖")
 
-if st.button("SEND"):
-    if user_input.strip() == "":
-        st.warning("Please enter a message.")
-    else:
-        ai_instructions = f"""
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+for message in st.session_state.messages:
+    with st.chat_message(
+        message["role"],
+        avatar=bot_avatar if message["role"] == "assistant" else None
+    ):
+        st.write(message["content"])
+
+user_input = st.chat_input("Type your message...")
+
+if user_input:
+    st.session_state.messages.append({
+        "role": "user",
+        "content": user_input
+    })
+
+    with st.chat_message("user"):
+        st.write(user_input)
+
+    instructions = f"""
 You are acting as: {personality}
 
 Intensity Level: {intensity}/10
 
 Rules:
 - Stay completely in character.
-- The higher the intensity, the more dramatic and realistic your personality becomes.
+- Higher intensity means a stronger personality.
 - Never break character.
-- Give detailed and engaging responses.
-- Respond naturally like a real person.
+- Give useful, engaging responses.
 """
-        final_prompt = ai_instructions + "\n\nUser: " + user_input
-        response = model.generate_content(final_prompt)
 
-        with st.chat_message("user"):
-            st.write(user_input)
+    conversation = instructions + "\n\n"
+
+    for message in st.session_state.messages:
+        conversation += f"{message['role']}: {message['content']}\n"
+
+    try:
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=conversation
+        )
+
+        answer = response.text or "I couldn't generate a response."
 
         with st.chat_message("assistant", avatar=bot_avatar):
-            st.write(response.text)
+            st.write(answer)
+
+        st.session_state.messages.append({
+            "role": "assistant",
+            "content": answer
+        })
+
+    except Exception as e:
+        st.error(f"Gemini API error: {e}")
