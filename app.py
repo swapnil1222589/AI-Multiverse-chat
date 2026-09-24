@@ -8,7 +8,7 @@ st.set_page_config(
 )
 
 client = genai.Client(
-    api_key=st.secrets["GEMINI_API_KEY"]
+    api_key=st.secrets["GEMINI_API_KEY"]                 
 )
 
 st.title("🤖 AI Multiverse Chat")
