@@ -3,7 +3,7 @@ from google import genai
 
 st.set_page_config(
     page_title="AI Multiverse Chat",
-    page_icon="🤖",
+    page_icon="🤖",              
     layout="centered"
 )
 
