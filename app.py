@@ -11,7 +11,7 @@ client = genai.Client(
     api_key=st.secrets["GEMINI_API_KEY"]                 
 )
 
-st.title("🤖 AI Multiverse Chat")
+st.title("🤖 AI Multiverse Chat") 
 st.caption("Talk with different AI personalities powered by Gemini")
 
 
