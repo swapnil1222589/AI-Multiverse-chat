@@ -47,7 +47,7 @@ avatars = {
     "Highly Sarcastic Fitness Coach": "🏋️"
 }
 
-bot_avatar = avatars.get(personality, "🤖")
+bot_avatar = avatars.get(personality, "🤖") 
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
