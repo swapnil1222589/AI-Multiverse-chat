@@ -59,7 +59,7 @@ The application reads the API key from Streamlit secrets using GEMINI_API_KEY. M
 🗺️ Possible Next Improvements
 - Add a clear-chat and conversation-export option.
 - Preserve separate chat histories for each personality.
-- Add more personalities and customizable system prompts.
+- Add more personalities and customizable system prompts.  
 - Improve API error handling and provide friendly error messages.
 👨‍💻 Author
 Swapnil Ghuge
