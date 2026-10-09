@@ -6,7 +6,7 @@ AI Multiverse Chat is a Streamlit application that lets you chat with the same A
 - Multiple AI personalities — Friendly Teacher, Expert Hacker, Stand-up Comedian, Panicked College Student at 3 AM, 1920s Mafia Boss, and Highly Sarcastic Fitness Coach.
 - Adjustable personality intensity — Tune the character's tone from 1 to 10.
 - Conversational chat UI — Chat-style messages with session-based conversation history.
-- Gemini-powered responses — Uses the Google Gen AI Python SDK and the gemini-2.5-flash model.
+- Gemini-powered responses — Uses the Google Gen AI Python SDK and the gemini-2.5-flash model. 
 - Simple local setup — Built with Streamlit and Python.
 🧰 Tech Stack
 - Python
