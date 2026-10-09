@@ -31,7 +31,7 @@ personality = st.sidebar.selectbox(
     ]
 )
 
-intensity = st.sidebar.slider(
+intensity = st.sidebar.slider( 
     "Intensity Level",
     min_value=1,
     max_value=10,
